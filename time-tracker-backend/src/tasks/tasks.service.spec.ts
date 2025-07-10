@@ -72,4 +72,12 @@ describe('TasksService', () => {
     // Then
     expect(result).toEqual(expectTaskStructure(MOCK_TASKS.task1));
   });
+
+  it('should return user friendly error for a non-existent task', () => {
+    // When
+    const result = taskService.findOne(999);
+
+    // Then
+    expect(result).toBe('Task not found');
+  });
 });
