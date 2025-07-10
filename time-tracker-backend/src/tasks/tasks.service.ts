@@ -23,7 +23,7 @@ export class TasksService {
   }
 
   findOne(id: number) {
-    return `This action returns a #${id} task`;
+    return this.tasks.find((task) => task.id === id);
   }
 
   update(id: number, updateTaskDto: UpdateTaskDto) {
