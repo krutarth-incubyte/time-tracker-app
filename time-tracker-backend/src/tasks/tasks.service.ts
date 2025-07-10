@@ -43,6 +43,11 @@ export class TasksService {
   }
 
   remove(id: number) {
-    return `This action removes a #${id} task`;
+    const task = this.tasks.find((task) => task.id === id);
+    if (!task) {
+      return 'Task not found';
+    }
+    this.tasks = this.tasks.filter((task) => task.id !== id);
+    return 'Task removed';
   }
 }
