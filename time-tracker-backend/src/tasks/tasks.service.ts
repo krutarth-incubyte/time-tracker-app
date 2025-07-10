@@ -31,7 +31,12 @@ export class TasksService {
   }
 
   update(id: number, updateTaskDto: UpdateTaskDto) {
-    return `This action updates a #${id} task`;
+    const task = this.tasks.find((task) => task.id === id);
+    const updatedTask = { ...task, ...updateTaskDto };
+    this.tasks = this.tasks.map((task) =>
+      task.id === id ? updatedTask : task,
+    );
+    return updatedTask;
   }
 
   remove(id: number) {
