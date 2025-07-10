@@ -120,4 +120,32 @@ describe('TasksService', () => {
     expect(updatedFetchedTask).toBe('Task not found');
     expect(updatedTask).toBe('Task not found');
   });
+
+  it('should delete a task', () => {
+    // Given
+    const task = taskService.create(createMockTask(MOCK_TASKS.task1));
+
+    // When
+    const fetchedTask = taskService.findOne(task.id);
+    const deletedTask = taskService.remove(task.id);
+    const deletedFetchedTask = taskService.findOne(task.id);
+
+    // Then
+    expect(fetchedTask).toEqual(expectTaskStructure(MOCK_TASKS.task1));
+    expect(deletedFetchedTask).toBe('Task not found');
+    expect(deletedTask).toEqual('Task removed');
+  });
+
+  it('should return user friendly error for a non-existent task delete', () => {
+    // Given
+    const task = taskService.create(createMockTask(MOCK_TASKS.task1));
+
+    // When
+    const fetchedTask = taskService.findOne(task.id);
+    const deletedTask = taskService.remove(task.id + 4);
+
+    // Then
+    expect(fetchedTask).toEqual(expectTaskStructure(MOCK_TASKS.task1));
+    expect(deletedTask).toBe('Task not found');
+  });
 });
