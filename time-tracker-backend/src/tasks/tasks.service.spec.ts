@@ -61,4 +61,15 @@ describe('TasksService', () => {
       expectTaskStructure(MOCK_TASKS.task2),
     ]);
   });
+
+  it('should return a task by id', () => {
+    // Given
+    const task = taskService.create(createMockTask(MOCK_TASKS.task1));
+
+    // When
+    const result = taskService.findOne(task.id);
+
+    // Then
+    expect(result).toEqual(expectTaskStructure(MOCK_TASKS.task1));
+  });
 });
