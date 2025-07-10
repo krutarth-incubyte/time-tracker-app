@@ -23,7 +23,11 @@ export class TasksService {
   }
 
   findOne(id: number) {
-    return this.tasks.find((task) => task.id === id);
+    const task = this.tasks.find((task) => task.id === id);
+    if (!task) {
+      return 'Task not found';
+    }
+    return task;
   }
 
   update(id: number, updateTaskDto: UpdateTaskDto) {
