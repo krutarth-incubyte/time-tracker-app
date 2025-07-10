@@ -1,11 +1,21 @@
 import { Injectable } from '@nestjs/common';
 import { CreateTaskDto } from './dto/create-task.dto';
 import { UpdateTaskDto } from './dto/update-task.dto';
+import { Task, TaskStatus } from './entities/task.entity';
 
 @Injectable()
 export class TasksService {
+  private tasks: Task[] = [];
+
   create(createTaskDto: CreateTaskDto) {
-    return 'This action adds a new task';
+    const task: Task = {
+      id: this.tasks.length + 1,
+      ...createTaskDto,
+      createdAt: new Date(),
+      status: TaskStatus.PENDING,
+    };
+    this.tasks.push(task);
+    return task;
   }
 
   findAll() {
