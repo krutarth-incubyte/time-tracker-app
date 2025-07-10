@@ -18,8 +18,8 @@ export class TasksService {
     return task;
   }
 
-  findAll() {
-    return `This action returns all tasks`;
+  findAll(): Task[] {
+    return this.tasks;
   }
 
   findOne(id: number) {
