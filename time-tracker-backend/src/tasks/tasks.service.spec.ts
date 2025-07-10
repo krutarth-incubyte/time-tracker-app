@@ -103,4 +103,21 @@ describe('TasksService', () => {
     );
     expect(updatedTask).toEqual(expectTaskStructure(expectedUpdatedTask));
   });
+
+  it('should return user friendly error for a non-existent task update', () => {
+    // Given
+    const task = taskService.create(createMockTask(MOCK_TASKS.task1));
+    const taskUpdate = {
+      title: 'Updated Task',
+      description: 'Updated Description',
+    };
+
+    // When
+    const updatedTask = taskService.update(task.id + 4, taskUpdate);
+    const updatedFetchedTask = taskService.findOne(task.id);
+
+    // Then
+    expect(updatedFetchedTask).toBe('Task not found');
+    expect(updatedTask).toBe('Task not found');
+  });
 });
