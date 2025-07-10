@@ -80,4 +80,27 @@ describe('TasksService', () => {
     // Then
     expect(result).toBe('Task not found');
   });
+
+  it('should update a task', () => {
+    // Given
+    const task = taskService.create(createMockTask(MOCK_TASKS.task1));
+    const taskUpdate = {
+      title: 'Updated Task',
+      description: 'Updated Description',
+    };
+    const expectedUpdatedTask = {
+      ...MOCK_TASKS.task1,
+      ...taskUpdate,
+    };
+
+    // When
+    const updatedTask = taskService.update(task.id, taskUpdate);
+    const updatedFetchedTask = taskService.findOne(task.id);
+
+    // Then
+    expect(updatedFetchedTask).toEqual(
+      expectTaskStructure(expectedUpdatedTask),
+    );
+    expect(updatedTask).toEqual(expectTaskStructure(expectedUpdatedTask));
+  });
 });
