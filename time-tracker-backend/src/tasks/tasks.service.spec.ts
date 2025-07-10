@@ -2,10 +2,28 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { TasksService } from './tasks.service';
 import { CreateTaskDto } from './dto/create-task.dto';
-import { TaskStatus } from './entities/task.entity';
+import { Task, TaskStatus } from './entities/task.entity';
 
 describe('TasksService', () => {
   let taskService: TasksService;
+
+  // Test data constants
+  const MOCK_TASKS = {
+    task1: { title: 'Test Task', description: 'Test Description' },
+    task2: { title: 'Test Task 2', description: 'Test Description 2' },
+  } as const;
+
+  // Helper functions
+  const createMockTask = (data: { title: string; description: string }) =>
+    data as CreateTaskDto;
+
+  const expectTaskStructure = (expectedTask: Partial<Task>) => ({
+    id: expect.any(Number),
+    title: expectedTask.title,
+    description: expectedTask.description,
+    createdAt: expect.any(Date),
+    status: TaskStatus.PENDING,
+  });
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
@@ -20,50 +38,27 @@ describe('TasksService', () => {
   });
 
   it('should create a task', () => {
-    const task = taskService.create({
-      title: 'Test Task',
-      description: 'Test Description',
-    } as unknown as CreateTaskDto);
+    // When
+    const task = taskService.create(createMockTask(MOCK_TASKS.task1));
+
+    // Then
     expect(task).toBeDefined();
-    expect(task).toEqual({
-      id: expect.any(Number),
-      title: 'Test Task',
-      description: 'Test Description',
-      createdAt: expect.any(Date),
-      status: TaskStatus.PENDING,
-    });
+    expect(task).toEqual(expectTaskStructure(MOCK_TASKS.task1));
   });
 
   it('should return all tasks', () => {
-    // Create some tasks first
-    taskService.create({
-      title: 'Test Task',
-      description: 'Test Description',
-    } as unknown as CreateTaskDto);
+    // Given
+    taskService.create(createMockTask(MOCK_TASKS.task1));
+    taskService.create(createMockTask(MOCK_TASKS.task2));
 
-    taskService.create({
-      title: 'Test Task 2',
-      description: 'Test Description 2',
-    } as unknown as CreateTaskDto);
-
-    // Now test findAll
+    // When
     const tasks = taskService.findAll();
+
+    // Then
     expect(tasks).toHaveLength(2);
     expect(tasks).toEqual([
-      {
-        id: expect.any(Number),
-        title: 'Test Task',
-        description: 'Test Description',
-        createdAt: expect.any(Date),
-        status: TaskStatus.PENDING,
-      },
-      {
-        id: expect.any(Number),
-        title: 'Test Task 2',
-        description: 'Test Description 2',
-        createdAt: expect.any(Date),
-        status: TaskStatus.PENDING,
-      },
+      expectTaskStructure(MOCK_TASKS.task1),
+      expectTaskStructure(MOCK_TASKS.task2),
     ]);
   });
 });
