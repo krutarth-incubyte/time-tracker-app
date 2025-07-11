@@ -48,6 +48,13 @@ export class TimeblocksService {
   }
 
   remove(id: number) {
-    return `This action removes a #${id} timeblock`;
+    const timeblock = this.timeblocks.find((timeblock) => timeblock.id === id);
+    if (!timeblock) {
+      return 'Timeblock not found';
+    }
+    this.timeblocks = this.timeblocks.filter(
+      (timeblock) => timeblock.id !== id,
+    );
+    return 'Timeblock deleted';
   }
 }

@@ -134,4 +134,19 @@ describe('TimeblocksService', () => {
     // Then
     expect(result).toBe('Timeblock not found');
   });
+
+  it('should delete a timeblock', () => {
+    // Given
+    const timeblock = service.create(
+      createMockTimeblock(MOCK_TIMEBLOCKS.timeblock1),
+    );
+    // When
+    const fetchedTimeblock = service.findOne(timeblock.id);
+    const result = service.remove(timeblock.id);
+    const fetchedTimeblockAfterDelete = service.findOne(timeblock.id);
+    // Then
+    expect(fetchedTimeblock).toEqual(expectTimeblockStructure(timeblock));
+    expect(fetchedTimeblockAfterDelete).toBe('Timeblock not found');
+    expect(result).toBe('Timeblock deleted');
+  });
 });
