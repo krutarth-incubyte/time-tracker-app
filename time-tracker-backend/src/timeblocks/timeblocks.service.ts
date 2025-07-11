@@ -33,7 +33,18 @@ export class TimeblocksService {
   }
 
   update(id: number, updateTimeblockDto: UpdateTimeblockDto) {
-    return `This action updates a #${id} timeblock`;
+    const timeblock = this.timeblocks.find((timeblock) => timeblock.id === id);
+    if (!timeblock) {
+      return 'Timeblock not found';
+    }
+    const updatedTimeblock = {
+      ...timeblock,
+      ...updateTimeblockDto,
+    };
+    this.timeblocks = this.timeblocks.map((timeblock) =>
+      timeblock.id === id ? updatedTimeblock : timeblock,
+    );
+    return updatedTimeblock;
   }
 
   remove(id: number) {

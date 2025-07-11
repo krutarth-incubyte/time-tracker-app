@@ -118,9 +118,20 @@ describe('TimeblocksService', () => {
     );
     const fetchedTimeblock = service.findOne(timeblock.id);
     // Then
-    expect(fetchedTimeblock).toEqual(updatedTimeblock);
+    expect(fetchedTimeblock).toEqual(
+      expectTimeblockStructure(updatedTimeblock),
+    );
     expect(updatedTimeblockResult).toEqual(
       expectTimeblockStructure(updatedTimeblock),
     );
+  });
+
+  it('should return a user friendly error if the timeblock is not found', () => {
+    // When
+    const result = service.update(999, {
+      description: 'Updated Timeblock',
+    });
+    // Then
+    expect(result).toBe('Timeblock not found');
   });
 });
