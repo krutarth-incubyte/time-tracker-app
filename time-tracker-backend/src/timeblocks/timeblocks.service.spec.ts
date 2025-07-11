@@ -101,4 +101,26 @@ describe('TimeblocksService', () => {
     // Then
     expect(result).toBe('Timeblock not found');
   });
+
+  it('should update a timeblock', () => {
+    // Given
+    const timeblock = service.create(
+      createMockTimeblock(MOCK_TIMEBLOCKS.timeblock1),
+    );
+    const updatedTimeblock = {
+      ...MOCK_TIMEBLOCKS.timeblock1,
+      description: 'Updated Timeblock',
+    };
+    // When
+    const updatedTimeblockResult = service.update(
+      timeblock.id,
+      updatedTimeblock,
+    );
+    const fetchedTimeblock = service.findOne(timeblock.id);
+    // Then
+    expect(fetchedTimeblock).toEqual(updatedTimeblock);
+    expect(updatedTimeblockResult).toEqual(
+      expectTimeblockStructure(updatedTimeblock),
+    );
+  });
 });
