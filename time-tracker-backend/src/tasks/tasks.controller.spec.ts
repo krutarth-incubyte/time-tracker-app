@@ -105,6 +105,7 @@ describe('TasksController', () => {
     expect(updatedFetchedTask).toEqual(
       expectTaskStructure(expectedUpdatedTask),
     );
+
     expect(updatedTask).toEqual(expectTaskStructure(expectedUpdatedTask));
   });
 });

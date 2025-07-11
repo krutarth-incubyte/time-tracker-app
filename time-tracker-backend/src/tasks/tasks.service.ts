@@ -7,7 +7,7 @@ import { Task, TaskStatus } from './entities/task.entity';
 export class TasksService {
   private tasks: Task[] = [];
 
-  create(createTaskDto: CreateTaskDto) {
+  create(createTaskDto: CreateTaskDto): Task {
     const task: Task = {
       id: this.tasks.length + 1,
       ...createTaskDto,

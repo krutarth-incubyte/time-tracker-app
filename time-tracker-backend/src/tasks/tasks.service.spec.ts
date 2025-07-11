@@ -114,10 +114,8 @@ describe('TasksService', () => {
 
     // When
     const updatedTask = taskService.update(task.id + 4, taskUpdate);
-    const updatedFetchedTask = taskService.findOne(task.id);
 
     // Then
-    expect(updatedFetchedTask).toBe('Task not found');
     expect(updatedTask).toBe('Task not found');
   });
 
