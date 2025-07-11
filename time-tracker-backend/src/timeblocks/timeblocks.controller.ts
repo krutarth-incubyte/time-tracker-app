@@ -1,4 +1,12 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  Patch,
+  Param,
+  Delete,
+} from '@nestjs/common';
 import { TimeblocksService } from './timeblocks.service';
 import { CreateTimeblockDto } from './dto/create-timeblock.dto';
 import { UpdateTimeblockDto } from './dto/update-timeblock.dto';
@@ -23,7 +31,10 @@ export class TimeblocksController {
   }
 
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updateTimeblockDto: UpdateTimeblockDto) {
+  update(
+    @Param('id') id: string,
+    @Body() updateTimeblockDto: UpdateTimeblockDto,
+  ) {
     return this.timeblocksService.update(+id, updateTimeblockDto);
   }
 

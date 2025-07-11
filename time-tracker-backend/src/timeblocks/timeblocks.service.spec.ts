@@ -3,40 +3,40 @@ import { TimeblocksService } from './timeblocks.service';
 import { CreateTimeblockDto } from './dto/create-timeblock.dto';
 import { Timeblock } from './entities/timeblock.entity';
 
+export const createMockTimeblock = (timeblock: {
+  taskId: number;
+  start: Date;
+  end: Date;
+  description: string;
+}): CreateTimeblockDto => timeblock as CreateTimeblockDto;
+
+export const expectTimeblockStructure = (
+  timeblock: Omit<Timeblock, 'id' | 'createdAt'>,
+): Partial<Timeblock> => ({
+  id: expect.any(Number) as number,
+  taskId: timeblock.taskId,
+  start: timeblock.start,
+  end: timeblock.end,
+  description: timeblock.description,
+  createdAt: expect.any(Date) as Date,
+});
+
+export const MOCK_TIMEBLOCKS = {
+  timeblock1: {
+    taskId: 1,
+    start: new Date(),
+    end: new Date(),
+    description: 'Timeblock 1',
+  },
+  timeblock2: {
+    taskId: 2,
+    start: new Date(),
+    end: new Date(),
+    description: 'Timeblock 2',
+  },
+};
 describe('TimeblocksService', () => {
   let service: TimeblocksService;
-  const MOCK_TIMEBLOCKS = {
-    timeblock1: {
-      taskId: 1,
-      start: new Date(),
-      end: new Date(),
-      description: 'Timeblock 1',
-    },
-    timeblock2: {
-      taskId: 2,
-      start: new Date(),
-      end: new Date(),
-      description: 'Timeblock 2',
-    },
-  };
-
-  const createMockTimeblock = (timeblock: {
-    taskId: number;
-    start: Date;
-    end: Date;
-    description: string;
-  }): CreateTimeblockDto => timeblock as CreateTimeblockDto;
-
-  const expectTimeblockStructure = (
-    timeblock: Omit<Timeblock, 'id' | 'createdAt'>,
-  ): Partial<Timeblock> => ({
-    id: expect.any(Number) as number,
-    taskId: timeblock.taskId,
-    start: timeblock.start,
-    end: timeblock.end,
-    description: timeblock.description,
-    createdAt: expect.any(Date) as Date,
-  });
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
