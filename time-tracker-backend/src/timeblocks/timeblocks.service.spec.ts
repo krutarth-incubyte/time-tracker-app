@@ -36,4 +36,39 @@ describe('TimeblocksService', () => {
       description: 'Timeblock 1',
     });
   });
+
+  it('should return all timeblocks', () => {
+    // Given
+    service.create({
+      taskId: 1,
+      start: new Date(),
+      end: new Date(),
+      description: 'Timeblock 1',
+    });
+    service.create({
+      taskId: 2,
+      start: new Date(),
+      end: new Date(),
+      description: 'Timeblock 2',
+    });
+    // When
+    const result = service.findAll();
+    // Then
+    expect(result).toEqual([
+      {
+        id: expect.any(Number),
+        taskId: 1,
+        start: expect.any(Date),
+        end: expect.any(Date),
+        description: 'Timeblock 1',
+      },
+      {
+        id: expect.any(Number),
+        taskId: 2,
+        start: expect.any(Date),
+        end: expect.any(Date),
+        description: 'Timeblock 2',
+      },
+    ]);
+  });
 });

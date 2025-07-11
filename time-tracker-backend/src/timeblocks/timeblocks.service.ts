@@ -5,18 +5,22 @@ import { Timeblock } from './entities/timeblock.entity';
 
 @Injectable()
 export class TimeblocksService {
+  private timeblocks: Timeblock[] = [];
+
   create(createTimeblockDto: CreateTimeblockDto): Timeblock {
-    return {
-      id: 1,
+    const timeblock: Timeblock = {
+      id: this.timeblocks.length + 1,
       taskId: createTimeblockDto.taskId,
       start: createTimeblockDto.start,
       end: createTimeblockDto.end,
       description: createTimeblockDto.description,
     };
+    this.timeblocks.push(timeblock);
+    return timeblock;
   }
 
-  findAll() {
-    return `This action returns all timeblocks`;
+  findAll(): Timeblock[] {
+    return this.timeblocks;
   }
 
   findOne(id: number) {
