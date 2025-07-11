@@ -17,7 +17,9 @@ describe('TasksService', () => {
   const createMockTask = (data: { title: string; description: string }) =>
     data as CreateTaskDto;
 
-  const expectTaskStructure = (expectedTask: Partial<Task>) => ({
+  const expectTaskStructure = (
+    expectedTask: Omit<Task, 'id' | 'createdAt' | 'status'>,
+  ) => ({
     id: expect.any(Number),
     title: expectedTask.title,
     description: expectedTask.description,

@@ -4,4 +4,5 @@ export class Timeblock {
   start: Date;
   end: Date;
   description: string;
+  createdAt: Date;
 }

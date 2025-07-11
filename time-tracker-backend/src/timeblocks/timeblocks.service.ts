@@ -14,6 +14,7 @@ export class TimeblocksService {
       start: createTimeblockDto.start,
       end: createTimeblockDto.end,
       description: createTimeblockDto.description,
+      createdAt: new Date(),
     };
     this.timeblocks.push(timeblock);
     return timeblock;
@@ -24,7 +25,11 @@ export class TimeblocksService {
   }
 
   findOne(id: number) {
-    return `This action returns a #${id} timeblock`;
+    const timeblock = this.timeblocks.find((timeblock) => timeblock.id === id);
+    if (!timeblock) {
+      return 'Timeblock not found';
+    }
+    return timeblock;
   }
 
   update(id: number, updateTimeblockDto: UpdateTimeblockDto) {

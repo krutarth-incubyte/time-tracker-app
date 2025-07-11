@@ -28,13 +28,14 @@ describe('TimeblocksService', () => {
   }): CreateTimeblockDto => timeblock as CreateTimeblockDto;
 
   const expectTimeblockStructure = (
-    timeblock: Omit<Timeblock, 'id'>,
+    timeblock: Omit<Timeblock, 'id' | 'createdAt'>,
   ): Partial<Timeblock> => ({
     id: expect.any(Number) as number,
     taskId: timeblock.taskId,
     start: timeblock.start,
     end: timeblock.end,
     description: timeblock.description,
+    createdAt: expect.any(Date) as Date,
   });
 
   beforeEach(async () => {
@@ -73,5 +74,31 @@ describe('TimeblocksService', () => {
       expectTimeblockStructure(MOCK_TIMEBLOCKS.timeblock1),
       expectTimeblockStructure(MOCK_TIMEBLOCKS.timeblock2),
     ]);
+  });
+
+  it('should return an empty array if no timeblocks are created', () => {
+    // When
+    const result = service.findAll();
+    expect(result).toEqual([]);
+  });
+
+  it('should return a timeblock by id', () => {
+    // Given
+    const timeblock = service.create(
+      createMockTimeblock(MOCK_TIMEBLOCKS.timeblock1),
+    );
+    // When
+    const result = service.findOne(timeblock.id);
+    // Then
+    expect(result).toEqual(
+      expectTimeblockStructure(MOCK_TIMEBLOCKS.timeblock1),
+    );
+  });
+
+  it('should return a user friendly error if the timeblock is not found', () => {
+    // When
+    const result = service.findOne(999);
+    // Then
+    expect(result).toBe('Timeblock not found');
   });
 });
