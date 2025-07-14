@@ -15,16 +15,13 @@ export class DatabaseMockService {
 
   private nextId = 1;
 
-  // Helper method to extract ID from eq condition
   private extractIdFromCondition(condition: any): number | null {
     try {
-      // Parse Drizzle SQL condition object
       if (
         condition &&
         typeof condition === 'object' &&
         'queryChunks' in condition
       ) {
-        // Look for Param objects in queryChunks
         for (const chunk of condition.queryChunks) {
           if (
             chunk &&
@@ -38,19 +35,17 @@ export class DatabaseMockService {
         }
       }
 
-      // Fallback: Check if the condition has a right property (common in eq conditions)
       if (condition && typeof condition === 'object' && 'right' in condition) {
         // eslint-disable-next-line @typescript-eslint/no-unsafe-return
         return condition.right;
       }
 
-      // Check if the condition has a value property
       if (condition && typeof condition === 'object' && 'value' in condition) {
         // eslint-disable-next-line @typescript-eslint/no-unsafe-return
         return condition.value;
       }
     } catch (e) {
-      // Fallback to null
+      console.error(e);
     }
 
     return null;

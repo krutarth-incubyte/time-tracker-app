@@ -1,5 +1,6 @@
 import { integer, pgTable, serial, text, timestamp } from 'drizzle-orm/pg-core';
 import { tasks } from './tasks.schema';
+import { relations } from 'drizzle-orm';
 
 export const timeblocks = pgTable('timeblocks', {
   id: serial('id').primaryKey(),
@@ -14,3 +15,11 @@ export const timeblocks = pgTable('timeblocks', {
 
 export type CreateTimeblock = typeof timeblocks.$inferInsert;
 export type SelectTimeblock = typeof timeblocks.$inferSelect;
+
+// Relations
+export const timeblockRelations = relations(timeblocks, ({ one }) => ({
+  task: one(tasks, {
+    fields: [timeblocks.taskId],
+    references: [tasks.id],
+  }),
+}));
