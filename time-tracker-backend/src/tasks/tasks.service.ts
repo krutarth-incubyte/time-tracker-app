@@ -1,53 +1,73 @@
 import { Injectable } from '@nestjs/common';
+import { eq } from 'drizzle-orm';
 import { CreateTaskDto } from './dto/create-task.dto';
 import { UpdateTaskDto } from './dto/update-task.dto';
-import { Task, TaskStatus } from './entities/task.entity';
+import { Task } from './entities/task.entity';
+import { DatabaseService } from '../database/database.service';
+import { tasks } from '../database/schemas/tasks.schema';
 
 @Injectable()
 export class TasksService {
-  private tasks: Task[] = [];
+  constructor(private readonly databaseService: DatabaseService) {}
 
-  create(createTaskDto: CreateTaskDto): Task {
-    const task: Task = {
-      id: this.tasks.length + 1,
-      ...createTaskDto,
-      createdAt: new Date(),
-      status: TaskStatus.PENDING,
-    };
-    this.tasks.push(task);
-    return task;
+  async create(createTaskDto: CreateTaskDto): Promise<Task> {
+    const [task] = await this.databaseService.db
+      .insert(tasks)
+      .values({
+        title: createTaskDto.title,
+        description: createTaskDto.description,
+      })
+      .returning();
+
+    return task as Task;
   }
 
-  findAll(): Task[] {
-    return this.tasks;
+  async findAll(): Promise<Task[]> {
+    const allTasks = await this.databaseService.db.select().from(tasks);
+
+    return allTasks as Task[];
   }
 
-  findOne(id: number) {
-    const task = this.tasks.find((task) => task.id === id);
+  async findOne(id: number): Promise<Task | string> {
+    const [task] = await this.databaseService.db
+      .select()
+      .from(tasks)
+      .where(eq(tasks.id, id));
+
     if (!task) {
       return 'Task not found';
     }
-    return task;
+
+    return task as Task;
   }
 
-  update(id: number, updateTaskDto: UpdateTaskDto) {
-    const task = this.tasks.find((task) => task.id === id);
-    if (!task) {
+  async update(
+    id: number,
+    updateTaskDto: UpdateTaskDto,
+  ): Promise<Task | string> {
+    const [updatedTask] = await this.databaseService.db
+      .update(tasks)
+      .set({ ...updateTaskDto })
+      .where(eq(tasks.id, id))
+      .returning();
+
+    if (!updatedTask) {
       return 'Task not found';
     }
-    const updatedTask = { ...task, ...updateTaskDto };
-    this.tasks = this.tasks.map((task) =>
-      task.id === id ? updatedTask : task,
-    );
-    return updatedTask;
+
+    return updatedTask as Task;
   }
 
-  remove(id: number) {
-    const task = this.tasks.find((task) => task.id === id);
-    if (!task) {
+  async remove(id: number): Promise<string> {
+    const [deletedTask] = await this.databaseService.db
+      .delete(tasks)
+      .where(eq(tasks.id, id))
+      .returning();
+
+    if (!deletedTask) {
       return 'Task not found';
     }
-    this.tasks = this.tasks.filter((task) => task.id !== id);
+
     return 'Task removed';
   }
 }

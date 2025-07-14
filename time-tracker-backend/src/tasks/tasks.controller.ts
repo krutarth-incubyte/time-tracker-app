@@ -19,42 +19,44 @@ export class TasksController {
   constructor(private readonly tasksService: TasksService) {}
 
   @Post()
-  create(@Body() createTaskDto: CreateTaskDto): Task {
-    return this.tasksService.create(createTaskDto);
+  async create(@Body() createTaskDto: CreateTaskDto): Promise<Task> {
+    return await this.tasksService.create(createTaskDto);
   }
 
   @Get()
-  findAll(): Task[] {
-    return this.tasksService.findAll();
+  async findAll(): Promise<Task[]> {
+    return await this.tasksService.findAll();
   }
 
   @Get(':id')
-  findOne(@Param('id', ParseIntPipe) id: number) {
-    const task = this.tasksService.findOne(id);
-    if (!task) {
-      throw new NotFoundException('Task not found');
+  async findOne(@Param('id', ParseIntPipe) id: number): Promise<Task> {
+    const task = await this.tasksService.findOne(id);
+    if (typeof task === 'string') {
+      throw new NotFoundException(task);
     }
     return task;
   }
 
   @Patch(':id')
-  update(
+  async update(
     @Param('id', ParseIntPipe) id: number,
     @Body() updateTaskDto: UpdateTaskDto,
-  ) {
-    const task = this.tasksService.update(id, updateTaskDto);
-    if (!task) {
-      throw new NotFoundException('Task not found');
+  ): Promise<Task> {
+    const task = await this.tasksService.update(id, updateTaskDto);
+    if (typeof task === 'string') {
+      throw new NotFoundException(task);
     }
     return task;
   }
 
   @Delete(':id')
-  remove(@Param('id', ParseIntPipe) id: number) {
-    const task = this.tasksService.remove(id);
-    if (!task) {
-      throw new NotFoundException('Task not found');
+  async remove(
+    @Param('id', ParseIntPipe) id: number,
+  ): Promise<{ message: string }> {
+    const result = await this.tasksService.remove(id);
+    if (result === 'Task not found') {
+      throw new NotFoundException(result);
     }
-    return task;
+    return { message: result };
   }
 }
