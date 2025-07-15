@@ -11,7 +11,7 @@ describe("Routes", () => {
 
   it("renders Dashboard component for / route", () => {
     renderWithRouter(["/"]);
-    expect(screen.getByText(/Dashboard/i)).toBeInTheDocument();
+    expect(screen.getByText(/Tasks/i)).toBeInTheDocument();
   });
 
   it("renders Tasks component for /tasks route", () => {

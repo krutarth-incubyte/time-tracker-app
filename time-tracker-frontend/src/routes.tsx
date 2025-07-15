@@ -1,12 +1,11 @@
 import { createBrowserRouter } from "react-router-dom";
-import Dashboard from "./pages/Dashboard";
 import Tasks from "./pages/Tasks";
 import Timeblocks from "./pages/Timeblocks";
 
 export const routes = [
   {
     path: "/",
-    element: <Dashboard />,
+    element: <Tasks />,
   },
   {
     path: "/tasks",

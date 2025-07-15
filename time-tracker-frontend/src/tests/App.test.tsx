@@ -3,6 +3,6 @@ import App from "../App";
 
 it("renders learn react link", () => {
   render(<App />);
-  const linkElement = screen.getByText(/Time Tracker/i);
+  const linkElement = screen.getByText(/Dashboard/i);
   expect(linkElement).toBeInTheDocument();
 });
