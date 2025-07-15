@@ -35,12 +35,18 @@ export default function AddTask() {
           </DialogHeader>
           <div className="flex flex-col gap-2">
             <label htmlFor="task-name">Task Name</label>
-            <Input type="text" placeholder="Task Name" id="task-name" />
+            <Input
+              type="text"
+              placeholder="Task Name"
+              id="task-name"
+              data-testid="task-name-input"
+            />
             <label htmlFor="task-description">Task Description</label>
             <Input
               type="text"
               placeholder="Task Description"
               id="task-description"
+              data-testid="task-description-input"
             />
           </div>
           <div className="flex justify-end gap-2">
