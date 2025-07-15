@@ -3,7 +3,7 @@ import TimeblockList from "@/components/Timeblocks/TimeblockList";
 
 describe("TimeblockList", () => {
   it("should render timeblock list", () => {
-    render(<TimeblockList timeblocks={[]} />);
+    render(<TimeblockList />);
     expect(screen.getByText("Timeblock List")).toBeInTheDocument();
   });
 });
