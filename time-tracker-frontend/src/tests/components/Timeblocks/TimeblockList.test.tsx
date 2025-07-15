@@ -7,4 +7,9 @@ describe("TimeblockList", () => {
     render(<TimeblockList timeblocks={mockTasks[0].timeBlocks} />);
     expect(screen.getByText(/Timeblock 1 description/i)).toBeInTheDocument();
   });
+
+  it("should render timeblock list with no timeblocks", () => {
+    render(<TimeblockList timeblocks={[]} />);
+    expect(screen.getByText(/No timeblocks found/i)).toBeInTheDocument();
+  });
 });

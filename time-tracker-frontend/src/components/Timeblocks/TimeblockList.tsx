@@ -7,9 +7,13 @@ export default function TimeblockList({
 }) {
   return (
     <div>
-      {timeblocks.map((timeblock) => (
-        <div key={timeblock.id}>{timeblock.description}</div>
-      ))}
+      {timeblocks.length > 0 ? (
+        timeblocks.map((timeblock) => (
+          <div key={timeblock.id}>{timeblock.description}</div>
+        ))
+      ) : (
+        <div>No timeblocks found</div>
+      )}
     </div>
   );
 }
