@@ -7,19 +7,19 @@ import userEvent from "@testing-library/user-event";
 describe("AddTask", () => {
   const AddButtonText = /Add Task/i;
   it("should render add task button", () => {
-    render(<AddTask />);
+    render(<AddTask addTaskHandler={() => {}} />);
     expect(screen.getByText(AddButtonText)).toBeInTheDocument();
   });
 
   it("should open dialog when add task button is clicked", async () => {
-    render(<AddTask />);
+    render(<AddTask addTaskHandler={() => {}} />);
     const user = userEvent.setup();
     await user.click(screen.getByText(AddButtonText));
     expect(screen.getByTestId("add-task-dialog")).toBeInTheDocument();
   });
 
   it("should close dialog when close button is clicked", async () => {
-    render(<AddTask />);
+    render(<AddTask addTaskHandler={() => {}} />);
     const user = userEvent.setup();
     await user.click(screen.getByText(AddButtonText));
     expect(screen.getByTestId("add-task-dialog")).toBeInTheDocument();
@@ -28,7 +28,7 @@ describe("AddTask", () => {
   });
 
   it("should render form with input fields for task name and description", async () => {
-    render(<AddTask />);
+    render(<AddTask addTaskHandler={() => {}} />);
     const user = userEvent.setup();
     await user.click(screen.getByText(AddButtonText));
     expect(screen.getByTestId("add-task-dialog")).toBeInTheDocument();
@@ -37,7 +37,7 @@ describe("AddTask", () => {
   });
 
   it("should clear the form when clear button is clicked", async () => {
-    render(<AddTask />);
+    render(<AddTask addTaskHandler={() => {}} />);
     // fill in the form
     const user = userEvent.setup();
     await user.click(screen.getByText(AddButtonText));
@@ -57,7 +57,7 @@ describe("AddTask", () => {
   });
 
   it("should close the dialog when submit button is clicked with valid values", async () => {
-    render(<AddTask />);
+    render(<AddTask addTaskHandler={() => {}} />);
     const user = userEvent.setup();
     await user.click(screen.getByText(AddButtonText));
     await user.type(screen.getByTestId("task-name-input"), "Test Task");
@@ -70,7 +70,7 @@ describe("AddTask", () => {
   });
 
   it("should verify the form is submitted with the correct values", async () => {
-    render(<AddTask />);
+    render(<AddTask addTaskHandler={() => {}} />);
     const user = userEvent.setup();
     await user.click(screen.getByText(AddButtonText));
     // when no values are entered, the form should not be submitted

@@ -13,15 +13,18 @@ import { Input } from "../ui/input";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { AddTaskSchema } from "@/types/tasks";
 
 const addTaskSchema = z.object({
   taskName: z.string().min(1, { message: "Task name is required" }),
-  taskDescription: z.string().optional(),
+  taskDescription: z.string(),
 });
 
-type AddTaskSchema = z.infer<typeof addTaskSchema>;
-
-export default function AddTask() {
+export default function AddTask({
+  addTaskHandler,
+}: {
+  addTaskHandler: (task: AddTaskSchema) => void;
+}) {
   const [open, setOpen] = useState(false);
   const {
     register,
@@ -39,6 +42,7 @@ export default function AddTask() {
   function onSubmit(data: AddTaskSchema) {
     console.log(data);
     setOpen(false);
+    addTaskHandler(data);
   }
 
   return (
