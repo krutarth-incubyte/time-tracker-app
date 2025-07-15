@@ -24,12 +24,12 @@ export default function AddTask() {
             <DialogTitle>Add A Task</DialogTitle>
             <DialogClose asChild>
               <Button
-                variant="outline"
+                variant="ghost"
                 size="icon"
                 className="absolute top-2 right-2"
                 data-testid="close-button"
               >
-                <XIcon className="w-4 h-4" stroke="white" />
+                <XIcon className="w-4 h-4" />
               </Button>
             </DialogClose>
           </DialogHeader>
@@ -44,6 +44,9 @@ export default function AddTask() {
             />
           </div>
           <div className="flex justify-end gap-2">
+            <Button variant="outline" type="button">
+              Clear
+            </Button>
             <Button type="submit">Add Task</Button>
           </div>
         </form>
