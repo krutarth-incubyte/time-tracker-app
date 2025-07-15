@@ -1,4 +1,9 @@
-import { Dialog, DialogContent, DialogTrigger } from "@radix-ui/react-dialog";
+import {
+  Dialog,
+  DialogClose,
+  DialogContent,
+  DialogTrigger,
+} from "@/components/ui/dialog";
 import { Button } from "../ui/button";
 import { useState } from "react";
 
@@ -14,6 +19,9 @@ export default function AddTimeblock() {
       </DialogTrigger>
       <DialogContent data-testid="add-timeblock-dialog">
         <div className="text-2xl font-bold">Add Timeblock</div>
+        <DialogClose asChild>
+          <Button data-testid="add-timeblock-dialog-close-button">Close</Button>
+        </DialogClose>
       </DialogContent>
     </Dialog>
   );
