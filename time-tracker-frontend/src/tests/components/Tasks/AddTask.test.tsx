@@ -32,4 +32,12 @@ describe("AddTask", () => {
     expect(screen.getByPlaceholderText("Task Name")).toBeInTheDocument();
     expect(screen.getByPlaceholderText("Task Description")).toBeInTheDocument();
   });
+
+  it("should render form with submit button", () => {});
+
+  it("should render form with clear button", () => {});
+
+  it("should clear the form when clear button is clicked", () => {});
+
+  it("should close the dialog when submit button is clicked", () => {});
 });

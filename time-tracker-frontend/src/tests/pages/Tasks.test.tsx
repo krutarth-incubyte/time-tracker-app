@@ -12,4 +12,6 @@ describe("Tasks", () => {
     render(<Tasks />);
     expect(screen.getByText(/Add Task/i)).toBeInTheDocument();
   });
+
+  it("should add task when submit button is clicked on add task dialog", () => {});
 });
