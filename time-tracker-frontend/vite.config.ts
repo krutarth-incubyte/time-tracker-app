@@ -6,11 +6,6 @@ import path from "path";
 
 export default defineConfig({
   plugins: [react(), tailwindcss()],
-  resolve: {
-    alias: {
-      "@": path.resolve(__dirname, "./src"),
-    },
-  },
   test: {
     environment: "jsdom",
     setupFiles: "./src/tests/setupTests.ts",
@@ -19,5 +14,10 @@ export default defineConfig({
       reporter: ["text", "json", "html"],
     },
     exclude: [...configDefaults.exclude, "src/**/*.d.ts"],
+  },
+  resolve: {
+    alias: {
+      "@": path.resolve(__dirname, "./src"),
+    },
   },
 });
