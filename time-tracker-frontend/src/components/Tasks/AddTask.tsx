@@ -13,6 +13,13 @@ import { Input } from "../ui/input";
 
 export default function AddTask() {
   const [open, setOpen] = useState(false);
+  const [taskName, setTaskName] = useState("");
+  const [taskDescription, setTaskDescription] = useState("");
+  function clearForm() {
+    setTaskName("");
+    setTaskDescription("");
+  }
+
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
@@ -40,6 +47,8 @@ export default function AddTask() {
               placeholder="Task Name"
               id="task-name"
               data-testid="task-name-input"
+              value={taskName}
+              onChange={(e) => setTaskName(e.target.value)}
             />
             <label htmlFor="task-description">Task Description</label>
             <Input
@@ -47,10 +56,19 @@ export default function AddTask() {
               placeholder="Task Description"
               id="task-description"
               data-testid="task-description-input"
+              value={taskDescription}
+              onChange={(e) => setTaskDescription(e.target.value)}
             />
           </div>
           <div className="flex justify-end gap-2">
-            <Button variant="outline" type="button">
+            <Button
+              variant="outline"
+              type="button"
+              data-testid="clear-button"
+              onClick={() => {
+                clearForm();
+              }}
+            >
               Clear
             </Button>
             <Button type="submit">Add Task</Button>
