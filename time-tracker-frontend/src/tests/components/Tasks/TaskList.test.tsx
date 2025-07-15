@@ -5,7 +5,7 @@ import TaskList from "../../../components/Tasks/TaskList";
 describe("TaskList", () => {
   it("should render task-list component", () => {
     render(<TaskList />);
-    expect(screen.getByText(/TaskList/i)).toBeInTheDocument();
+    expect(screen.getByText(/Task List/i)).toBeInTheDocument();
   });
 
   it("should render task-list component with tasks", () => {
