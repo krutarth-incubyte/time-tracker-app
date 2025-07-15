@@ -34,4 +34,9 @@ describe("TaskList", () => {
     expect(screen.getByText(/Task 2/i)).toBeInTheDocument();
     expect(screen.getByText(/Task 3/i)).toBeInTheDocument();
   });
+
+  it("should render task-list component with no tasks", () => {
+    render(<TaskList tasks={[]} />);
+    expect(screen.getByText(/No tasks found/i)).toBeInTheDocument();
+  });
 });
