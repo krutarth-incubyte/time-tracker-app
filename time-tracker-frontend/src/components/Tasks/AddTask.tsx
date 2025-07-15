@@ -15,7 +15,7 @@ export default function AddTask() {
       <DialogTrigger asChild>
         <Button>Add Task</Button>
       </DialogTrigger>
-      <DialogContent showCloseButton={false}>
+      <DialogContent>
         <DialogHeader>
           <DialogTitle>Add A Task</DialogTitle>
         </DialogHeader>
