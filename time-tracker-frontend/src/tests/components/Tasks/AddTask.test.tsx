@@ -21,7 +21,7 @@ describe("AddTask", () => {
     render(<AddTask />);
     fireEvent.click(screen.getByText(AddButtonText));
     expect(screen.getByText(DialogTitleText)).toBeInTheDocument();
-    fireEvent.click(screen.getByRole("button", { name: /close/i }));
+    fireEvent.click(screen.getByTestId("close-button"));
     expect(screen.queryByText(DialogTitleText)).not.toBeInTheDocument();
   });
 });
