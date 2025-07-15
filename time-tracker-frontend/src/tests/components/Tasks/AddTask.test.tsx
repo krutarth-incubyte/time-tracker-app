@@ -33,7 +33,14 @@ describe("AddTask", () => {
     expect(screen.getByPlaceholderText("Task Description")).toBeInTheDocument();
   });
 
-  it("should render form with submit button", () => {});
+  it("should render form with submit button", () => {
+    render(<AddTask />);
+    fireEvent.click(screen.getByText(AddButtonText));
+    expect(screen.getByText(DialogTitleText)).toBeInTheDocument();
+    expect(
+      screen.getByRole("button", { name: "Add Task" })
+    ).toBeInTheDocument();
+  });
 
   it("should render form with clear button", () => {});
 
