@@ -42,6 +42,13 @@ describe("AddTask", () => {
     ).toBeInTheDocument();
   });
 
+  it("should render form with clear button", () => {
+    render(<AddTask />);
+    fireEvent.click(screen.getByText(AddButtonText));
+    expect(screen.getByText(DialogTitleText)).toBeInTheDocument();
+    expect(screen.getByRole("button", { name: "Clear" })).toBeInTheDocument();
+  });
+
   it("should render form with clear button", () => {});
 
   it("should clear the form when clear button is clicked", () => {});
