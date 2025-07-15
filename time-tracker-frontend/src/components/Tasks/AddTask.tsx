@@ -46,7 +46,7 @@ export default function AddTask() {
       <DialogTrigger asChild>
         <Button>Add Task</Button>
       </DialogTrigger>
-      <DialogContent>
+      <DialogContent data-testid="add-task-dialog">
         <form>
           <DialogHeader>
             <DialogTitle>Add A Task</DialogTitle>

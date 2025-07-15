@@ -1,6 +1,7 @@
 import { describe, it, expect } from "vitest";
 import Tasks from "../../pages/Tasks";
 import { render, screen } from "@testing-library/react";
+import userEvent from "@testing-library/user-event";
 
 describe("Tasks", () => {
   it("should render tasks page", () => {
@@ -13,5 +14,17 @@ describe("Tasks", () => {
     expect(screen.getByText(/Add Task/i)).toBeInTheDocument();
   });
 
-  it("should add task when submit button is clicked on add task dialog", () => {});
+  it("should add task when submit button is clicked on add task dialog", async () => {
+    render(<Tasks />);
+    const user = userEvent.setup();
+    await user.click(screen.getByText(/Add Task/i));
+    await user.type(screen.getByTestId("task-name-input"), "Test Task");
+    await user.type(
+      screen.getByTestId("task-description-input"),
+      "Test Description"
+    );
+    await user.click(screen.getByRole("button", { name: "Add Task" }));
+    expect(screen.queryByTestId("add-task-dialog")).not.toBeInTheDocument();
+    expect(screen.getByText(/Test Task/i)).toBeInTheDocument();
+  });
 });
