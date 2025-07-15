@@ -1,9 +1,8 @@
+import { RouterProvider } from "react-router-dom";
+import { router } from "./routes";
+
 function App() {
-  return (
-    <div className="w-full h-full flex flex-col items-center justify-center">
-      <p className="text-3xl font-bold underline">Time Tracker</p>
-    </div>
-  );
+  return <RouterProvider router={router} />;
 }
 
 export default App;
