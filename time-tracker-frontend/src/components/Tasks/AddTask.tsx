@@ -20,6 +20,12 @@ export default function AddTask() {
     setTaskDescription("");
   }
 
+  function handleAddTask(event: React.MouseEvent<HTMLButtonElement>) {
+    event.preventDefault();
+    console.log(taskName, taskDescription);
+    setOpen(false);
+  }
+
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
@@ -65,13 +71,17 @@ export default function AddTask() {
               variant="outline"
               type="button"
               data-testid="clear-button"
-              onClick={() => {
-                clearForm();
-              }}
+              onClick={clearForm}
             >
               Clear
             </Button>
-            <Button type="submit">Add Task</Button>
+            <Button
+              type="submit"
+              data-testid="add-task-button"
+              onClick={handleAddTask}
+            >
+              Add Task
+            </Button>
           </div>
         </form>
       </DialogContent>

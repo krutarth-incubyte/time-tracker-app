@@ -55,7 +55,7 @@ describe("AddTask", () => {
     expect(screen.getByRole("button", { name: "Clear" })).toBeInTheDocument();
   });
 
-  it("should render form with clear button", async () => {
+  it("should clear the form when clear button is clicked", async () => {
     render(<AddTask />);
     // fill in the form
     const user = userEvent.setup();
@@ -75,7 +75,16 @@ describe("AddTask", () => {
     expect(screen.getByTestId("task-description-input")).toHaveValue("");
   });
 
-  it("should clear the form when clear button is clicked", () => {});
-
-  it("should close the dialog when submit button is clicked", () => {});
+  it("should close the dialog when submit button is clicked", async () => {
+    render(<AddTask />);
+    const user = userEvent.setup();
+    await user.click(screen.getByText(AddButtonText));
+    await user.type(screen.getByTestId("task-name-input"), "Test Task");
+    await user.type(
+      screen.getByTestId("task-description-input"),
+      "Test Description"
+    );
+    await user.click(screen.getByRole("button", { name: "Add Task" }));
+    expect(screen.queryByText(DialogTitleText)).not.toBeInTheDocument();
+  });
 });
