@@ -1,4 +1,5 @@
 import { mockTimeblocks } from "@/components/Tasks/mockTasks";
+import AddTimeblock from "@/components/Timeblocks/AddTimeblock";
 import TimeblockList from "@/components/Timeblocks/TimeblockList";
 import { Timeblock } from "@/types/timeblocks";
 import { useState, useEffect } from "react";
@@ -21,6 +22,7 @@ export default function Timeblocks() {
       <div className="text-2xl font-bold" data-testid="timeblocks-title">
         Timeblocks
       </div>
+      <AddTimeblock />
       <TimeblockList timeblocks={timeblocks} />
     </div>
   );
