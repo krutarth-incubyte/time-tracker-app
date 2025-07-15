@@ -18,4 +18,20 @@ describe("AddTimeblock", () => {
       screen.queryByTestId("add-timeblock-dialog")
     ).not.toBeInTheDocument();
   });
+
+  it("should have form with fields following timeblocks types", async () => {
+    renderWithRouter(<AddTimeblock />);
+    const user = userEvent.setup();
+    await user.click(screen.getByTestId("add-timeblock-button"));
+    expect(screen.getByTestId("add-timeblock-dialog")).toBeInTheDocument();
+    expect(
+      screen.getByTestId("timeblock-dialog-description-input")
+    ).toBeInTheDocument();
+    expect(
+      screen.getByTestId("timeblock-dialog-start-input")
+    ).toBeInTheDocument();
+    expect(
+      screen.getByTestId("timeblock-dialog-end-input")
+    ).toBeInTheDocument();
+  });
 });
