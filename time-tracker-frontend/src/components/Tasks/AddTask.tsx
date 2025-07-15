@@ -10,19 +10,34 @@ import {
 } from "../ui/dialog";
 import { XIcon } from "lucide-react";
 import { Input } from "../ui/input";
+import { useForm } from "react-hook-form";
+import { z } from "zod";
+import { zodResolver } from "@hookform/resolvers/zod";
+
+const addTaskSchema = z.object({
+  taskName: z.string().min(1, { message: "Task name is required" }),
+  taskDescription: z.string().optional(),
+});
+
+type AddTaskSchema = z.infer<typeof addTaskSchema>;
 
 export default function AddTask() {
   const [open, setOpen] = useState(false);
-  const [taskName, setTaskName] = useState("");
-  const [taskDescription, setTaskDescription] = useState("");
-  function clearForm() {
-    setTaskName("");
-    setTaskDescription("");
-  }
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+    reset,
+  } = useForm<AddTaskSchema>({
+    resolver: zodResolver(addTaskSchema),
+    defaultValues: {
+      taskName: "",
+      taskDescription: "",
+    },
+  });
 
-  function handleAddTask(event: React.MouseEvent<HTMLButtonElement>) {
-    event.preventDefault();
-    console.log(taskName, taskDescription);
+  function onSubmit(data: AddTaskSchema) {
+    console.log(data);
     setOpen(false);
   }
 
@@ -53,32 +68,37 @@ export default function AddTask() {
               placeholder="Task Name"
               id="task-name"
               data-testid="task-name-input"
-              value={taskName}
-              onChange={(e) => setTaskName(e.target.value)}
+              {...register("taskName")}
             />
+            {errors.taskName && (
+              <p className="text-red-500" data-testid="task-name-error">
+                {errors.taskName.message}
+              </p>
+            )}
             <label htmlFor="task-description">Task Description</label>
             <Input
               type="text"
               placeholder="Task Description"
               id="task-description"
               data-testid="task-description-input"
-              value={taskDescription}
-              onChange={(e) => setTaskDescription(e.target.value)}
+              {...register("taskDescription")}
             />
           </div>
-          <div className="flex justify-end gap-2">
+          <div className="flex justify-start gap-2">
             <Button
               variant="outline"
               type="button"
               data-testid="clear-button"
-              onClick={clearForm}
+              onClick={() => {
+                reset();
+              }}
             >
               Clear
             </Button>
             <Button
               type="submit"
               data-testid="add-task-button"
-              onClick={handleAddTask}
+              onClick={handleSubmit(onSubmit)}
             >
               Add Task
             </Button>

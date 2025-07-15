@@ -75,7 +75,7 @@ describe("AddTask", () => {
     expect(screen.getByTestId("task-description-input")).toHaveValue("");
   });
 
-  it("should close the dialog when submit button is clicked", async () => {
+  it("should close the dialog when submit button is clicked with valid values", async () => {
     render(<AddTask />);
     const user = userEvent.setup();
     await user.click(screen.getByText(AddButtonText));
@@ -86,5 +86,15 @@ describe("AddTask", () => {
     );
     await user.click(screen.getByRole("button", { name: "Add Task" }));
     expect(screen.queryByText(DialogTitleText)).not.toBeInTheDocument();
+  });
+
+  it("should verify the form is submitted with the correct values", async () => {
+    render(<AddTask />);
+    const user = userEvent.setup();
+    await user.click(screen.getByText(AddButtonText));
+    // when no values are entered, the form should not be submitted
+    await user.click(screen.getByRole("button", { name: "Add Task" }));
+    expect(screen.getByText(DialogTitleText)).toBeInTheDocument();
+    expect(screen.getByTestId("task-name-error")).toBeInTheDocument();
   });
 });
