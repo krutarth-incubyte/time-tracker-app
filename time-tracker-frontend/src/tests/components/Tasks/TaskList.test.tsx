@@ -2,6 +2,11 @@ import { render, screen } from "@testing-library/react";
 import { describe, it, expect } from "vitest";
 import TaskList from "../../../components/Tasks/TaskList";
 import { TaskStatus } from "../../../types/tasks";
+import { MemoryRouter } from "react-router-dom";
+
+const renderWithRouter = (ui: React.ReactNode) => {
+  return render(<MemoryRouter>{ui}</MemoryRouter>);
+};
 
 const tasks = [
   {
@@ -29,14 +34,14 @@ const tasks = [
 
 describe("TaskList", () => {
   it("should render task-list component with tasks", () => {
-    render(<TaskList tasks={tasks} />);
+    renderWithRouter(<TaskList tasks={tasks} />);
     expect(screen.getByText(/Task 1/i)).toBeInTheDocument();
     expect(screen.getByText(/Task 2/i)).toBeInTheDocument();
     expect(screen.getByText(/Task 3/i)).toBeInTheDocument();
   });
 
   it("should render task-list component with no tasks", () => {
-    render(<TaskList tasks={[]} />);
+    renderWithRouter(<TaskList tasks={[]} />);
     expect(screen.getByText(/No tasks found/i)).toBeInTheDocument();
   });
 });

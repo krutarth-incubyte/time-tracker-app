@@ -19,8 +19,8 @@ describe("Routes", () => {
     expect(screen.getByText(/Tasks/i)).toBeInTheDocument();
   });
 
-  it("renders TimeBlocks component for /timeblocks/:id route", () => {
+  it("renders Timeblocks component for /timeblocks/:taskId route", () => {
     renderWithRouter(["/timeblocks/123"]);
-    expect(screen.getByText(/TimeBlocks/i)).toBeInTheDocument();
+    expect(screen.getByTestId("timeblocks-title")).toBeInTheDocument();
   });
 });

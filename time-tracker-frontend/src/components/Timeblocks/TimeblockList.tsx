@@ -2,7 +2,7 @@ import { Timeblock } from "@/types/timeblocks";
 import { Button } from "../ui/button";
 
 export default function TimeblockList({
-  timeblocks = [],
+  timeblocks,
 }: {
   timeblocks: Timeblock[];
 }) {

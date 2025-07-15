@@ -1,20 +1,25 @@
 import { render, screen } from "@testing-library/react";
 import TimeblockList from "@/components/Timeblocks/TimeblockList";
-import { tasks as mockTasks } from "@/components/Tasks/mockTasks";
+import { MemoryRouter } from "react-router-dom";
+import { mockTimeblocks } from "@/components/Tasks/mockTasks";
+
+const renderWithRouter = (ui: React.ReactNode) => {
+  return render(<MemoryRouter>{ui}</MemoryRouter>);
+};
 
 describe("TimeblockList", () => {
   it("should render timeblock list with timeblocks", () => {
-    render(<TimeblockList timeblocks={mockTasks[0].timeBlocks} />);
-    expect(screen.getByText(/Timeblock 1 description/i)).toBeInTheDocument();
+    renderWithRouter(<TimeblockList timeblocks={mockTimeblocks} />);
+    expect(screen.getByText(mockTimeblocks[0].description)).toBeInTheDocument();
   });
 
   it("should render timeblock list with no timeblocks", () => {
-    render(<TimeblockList timeblocks={[]} />);
+    renderWithRouter(<TimeblockList timeblocks={[]} />);
     expect(screen.getByText(/No timeblocks found/i)).toBeInTheDocument();
   });
 
   it("should render add timeblock button", () => {
-    render(<TimeblockList timeblocks={mockTasks[0].timeBlocks} />);
+    renderWithRouter(<TimeblockList timeblocks={mockTimeblocks} />);
     expect(screen.getByText(/Add Timeblock/i)).toBeInTheDocument();
   });
 });

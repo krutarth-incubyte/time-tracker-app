@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import TaskList from "@/components/Tasks/TaskList";
-import { tasks as mockTasks } from "@/components/Tasks/mockTasks";
+import { mockTasks as mockTasks } from "@/components/Tasks/mockTasks";
 import { Task, AddTaskSchema, TaskStatus } from "@/types/tasks";
 import AddTask from "@/components/Tasks/AddTask";
 

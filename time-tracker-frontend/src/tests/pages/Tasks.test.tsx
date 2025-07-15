@@ -1,22 +1,43 @@
 import { describe, it, expect } from "vitest";
 import Tasks from "../../pages/Tasks";
+import Timeblocks from "../../pages/Timeblocks";
 import { render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
-import { tasks as mockTasks } from "@/components/Tasks/mockTasks";
+import { mockTasks } from "@/components/Tasks/mockTasks";
+import { createMemoryRouter, RouterProvider } from "react-router-dom";
+
+const renderWithRouter = (initialEntries = ["/tasks"]) => {
+  const router = createMemoryRouter(
+    [
+      {
+        path: "/tasks",
+        element: <Tasks />,
+      },
+      {
+        path: "/timeblocks/:taskId",
+        element: <Timeblocks />,
+      },
+    ],
+    {
+      initialEntries,
+    }
+  );
+  return render(<RouterProvider router={router} />);
+};
 
 describe("Tasks", () => {
   it("should render tasks page", () => {
-    render(<Tasks />);
+    renderWithRouter();
     expect(screen.getByText(/Tasks/i)).toBeInTheDocument();
   });
 
   it("should render add task button", () => {
-    render(<Tasks />);
+    renderWithRouter();
     expect(screen.getByText(/Add Task/i)).toBeInTheDocument();
   });
 
   it("should add task when submit button is clicked on add task dialog", async () => {
-    render(<Tasks />);
+    renderWithRouter();
     const user = userEvent.setup();
     await user.click(screen.getByText(/Add Task/i));
     await user.type(screen.getByTestId("task-name-input"), "Test Task");
@@ -29,12 +50,11 @@ describe("Tasks", () => {
     expect(screen.getByText(/Test Task/i)).toBeInTheDocument();
   });
 
-  it("should render timeblock list when task is clicked", async () => {
-    render(<Tasks />);
+  it("should navigate to timeblock list when task is clicked", async () => {
+    renderWithRouter();
+
     const user = userEvent.setup();
     await user.click(screen.getByText(mockTasks[0].title));
-    expect(
-      screen.getByText(mockTasks[0].timeBlocks[0].description)
-    ).toBeInTheDocument();
+    expect(screen.getByTestId("timeblocks-title")).toBeInTheDocument();
   });
 });
