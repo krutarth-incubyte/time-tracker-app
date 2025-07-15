@@ -24,4 +24,12 @@ describe("AddTask", () => {
     fireEvent.click(screen.getByTestId("close-button"));
     expect(screen.queryByText(DialogTitleText)).not.toBeInTheDocument();
   });
+
+  it("should render form with input fields for task name and description", () => {
+    render(<AddTask />);
+    fireEvent.click(screen.getByText(AddButtonText));
+    expect(screen.getByText(DialogTitleText)).toBeInTheDocument();
+    expect(screen.getByPlaceholderText("Task Name")).toBeInTheDocument();
+    expect(screen.getByPlaceholderText("Task Description")).toBeInTheDocument();
+  });
 });
