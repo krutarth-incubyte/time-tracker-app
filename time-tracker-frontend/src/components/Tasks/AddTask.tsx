@@ -43,6 +43,9 @@ export default function AddTask() {
               id="task-description"
             />
           </div>
+          <div className="flex justify-end gap-2">
+            <Button type="submit">Add Task</Button>
+          </div>
         </form>
       </DialogContent>
     </Dialog>
