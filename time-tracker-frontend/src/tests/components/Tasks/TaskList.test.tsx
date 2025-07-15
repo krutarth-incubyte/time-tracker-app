@@ -7,4 +7,16 @@ describe("TaskList", () => {
     render(<TaskList />);
     expect(screen.getByText(/TaskList/i)).toBeInTheDocument();
   });
+
+  it("should render task-list component with tasks", () => {
+    const tasks = [
+      { id: 1, name: "Task 1" },
+      { id: 2, name: "Task 2" },
+      { id: 3, name: "Task 3" },
+    ];
+    render(<TaskList tasks={tasks} />);
+    expect(screen.getByText(/Task 1/i)).toBeInTheDocument();
+    expect(screen.getByText(/Task 2/i)).toBeInTheDocument();
+    expect(screen.getByText(/Task 3/i)).toBeInTheDocument();
+  });
 });
