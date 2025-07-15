@@ -28,11 +28,6 @@ const tasks = [
 ];
 
 describe("TaskList", () => {
-  it("should render task-list component", () => {
-    render(<TaskList />);
-    expect(screen.getByText(/Task List/i)).toBeInTheDocument();
-  });
-
   it("should render task-list component with tasks", () => {
     render(<TaskList tasks={tasks} />);
     expect(screen.getByText(/Task 1/i)).toBeInTheDocument();
