@@ -22,7 +22,9 @@ export default function Timeblocks() {
       <div className="text-2xl font-bold" data-testid="timeblocks-title">
         Timeblocks
       </div>
-      <AddTimeblock />
+      <div className="flex justify-start">
+        <AddTimeblock taskId={Number(taskId)} />
+      </div>
       <TimeblockList timeblocks={timeblocks} />
     </div>
   );

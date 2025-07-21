@@ -17,9 +17,4 @@ describe("TimeblockList", () => {
     renderWithRouter(<TimeblockList timeblocks={[]} />);
     expect(screen.getByText(/No timeblocks found/i)).toBeInTheDocument();
   });
-
-  it("should render add timeblock button", () => {
-    renderWithRouter(<TimeblockList timeblocks={mockTimeblocks} />);
-    expect(screen.getByText(/Add Timeblock/i)).toBeInTheDocument();
-  });
 });

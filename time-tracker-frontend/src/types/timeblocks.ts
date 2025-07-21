@@ -6,3 +6,10 @@ export interface Timeblock {
   description: string;
   createdAt: Date;
 }
+
+export interface AddTimeblockSchema {
+  description: string;
+  start: Date;
+  end: Date;
+  taskId: number;
+}

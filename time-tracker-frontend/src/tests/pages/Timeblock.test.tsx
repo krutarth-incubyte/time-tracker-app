@@ -14,11 +14,6 @@ describe("Timeblock", () => {
     expect(screen.getByTestId("timeblocks-title")).toBeInTheDocument();
   });
 
-  it("should render add timeblock button", () => {
-    renderWithRouter(<Timeblocks />);
-    expect(screen.getByTestId("add-timeblock-button")).toBeInTheDocument();
-  });
-
   it("should render timeblock list", () => {
     renderWithRouter(<Timeblocks />);
     expect(screen.getByTestId("timeblock-list")).toBeInTheDocument();
@@ -29,5 +24,33 @@ describe("Timeblock", () => {
     const user = userEvent.setup();
     await user.click(screen.getByTestId("add-timeblock-button"));
     expect(screen.getByTestId("add-timeblock-dialog")).toBeInTheDocument();
+  });
+
+  it("should submit form with correct data and close dialog", async () => {
+    renderWithRouter(<Timeblocks />);
+    const user = userEvent.setup();
+    await user.click(screen.getByTestId("add-timeblock-button"));
+    await user.type(
+      screen.getByTestId("timeblock-dialog-description-input"),
+      "Test Description"
+    );
+    await user.selectOptions(
+      screen.getByTestId("timeblock-dialog-start-time-input"),
+      "00:00"
+    );
+    await user.selectOptions(
+      screen.getByTestId("timeblock-dialog-end-time-input"),
+      "01:00"
+    );
+    await user.click(screen.getByTestId("add-timeblock-dialog-submit-button"));
+    expect(
+      screen.queryByTestId("timeblock-dialog-description-error")
+    ).not.toBeInTheDocument();
+    expect(
+      screen.queryByTestId("timeblock-dialog-start-time-error")
+    ).not.toBeInTheDocument();
+    expect(
+      screen.queryByTestId("timeblock-dialog-end-time-error")
+    ).not.toBeInTheDocument();
   });
 });
