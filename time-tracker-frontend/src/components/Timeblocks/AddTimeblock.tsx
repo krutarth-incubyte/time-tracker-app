@@ -46,7 +46,13 @@ const timeblockFormSchema = z
 
 type TimeblockFormData = z.infer<typeof timeblockFormSchema>;
 
-export default function AddTimeblock({ taskId }: { taskId: number }) {
+export default function AddTimeblock({
+  taskId,
+  addTimeblockHandler,
+}: {
+  taskId: number;
+  addTimeblockHandler: (timeblock: AddTimeblockSchema) => void;
+}) {
   const [open, setOpen] = useState(false);
   const handleOpenChange = (open: boolean) => {
     setOpen(open);
@@ -83,8 +89,6 @@ export default function AddTimeblock({ taskId }: { taskId: number }) {
   };
 
   const handleAddTimeblock = (data: TimeblockFormData) => {
-    console.log("!!!!!!!!!!!!!!!!!!!!!!!");
-    console.log("!!!!!!!!!!!!!!!!!!!!!!!", data);
     // Convert form data to AddTimeblockSchema format
     const timeblockData: AddTimeblockSchema = {
       description: data.description,
@@ -93,9 +97,8 @@ export default function AddTimeblock({ taskId }: { taskId: number }) {
       taskId: data.taskId,
     };
 
-    console.log(timeblockData);
+    addTimeblockHandler(timeblockData);
     setOpen(false);
-    console.log("@@@@@@@@@@@@@@@@@@@@", timeblockData);
   };
 
   return (
