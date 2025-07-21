@@ -1,33 +1,50 @@
-import { useEffect, useState } from "react";
 import TaskList from "@/components/Tasks/TaskList";
-import { mockTasks as mockTasks } from "@/components/Tasks/mockTasks";
-import { Task, AddTaskSchema, TaskStatus } from "@/types/tasks";
+import { AddTaskSchema } from "@/types/tasks";
 import AddTask from "@/components/Tasks/AddTask";
+import { useTasks, useCreateTask } from "@/hooks/useTasks";
 
 export default function Tasks() {
-  const [tasks, setTasks] = useState<Task[]>([]);
-
-  useEffect(() => {
-    setTasks(mockTasks);
-  }, []);
+  const { data: tasks = [], isLoading, error } = useTasks();
+  const createTaskMutation = useCreateTask();
 
   function addTask(task: AddTaskSchema) {
-    setTasks([
-      ...tasks,
-      {
-        id: tasks.length + 1,
-        title: task.taskName,
-        description: task.taskDescription,
-        createdAt: new Date(),
-        status: TaskStatus.PENDING,
-      } as Task,
-    ]);
+    createTaskMutation.mutate(task);
+  }
+
+  if (isLoading) {
+    return (
+      <div>
+        <div className="text-3xl font-bold">Tasks</div>
+        <div>Loading tasks...</div>
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div>
+        <div className="text-3xl font-bold">Tasks</div>
+        <div className="text-red-500">
+          Error loading tasks:{" "}
+          {error instanceof Error ? error.message : "Unknown error"}
+        </div>
+      </div>
+    );
   }
 
   return (
     <div>
       <div className="text-3xl font-bold">Tasks</div>
       <AddTask addTaskHandler={addTask} />
+      {createTaskMutation.isPending && <div>Adding task...</div>}
+      {createTaskMutation.error && (
+        <div className="text-red-500">
+          Error adding task:{" "}
+          {createTaskMutation.error instanceof Error
+            ? createTaskMutation.error.message
+            : "Unknown error"}
+        </div>
+      )}
       <TaskList tasks={tasks} />
     </div>
   );
