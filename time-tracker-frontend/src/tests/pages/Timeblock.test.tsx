@@ -1,16 +1,16 @@
-import { describe, it, expect } from "vitest";
-import { render, screen } from "@testing-library/react";
+import { describe, it, expect, vi, beforeEach } from "vitest";
+import { renderWithProviders, screen, userEvent, waitFor } from "../test-utils";
 import Timeblocks from "@/pages/Timeblocks";
 import { MemoryRouter, Routes, Route } from "react-router-dom";
-import userEvent from "@testing-library/user-event";
 import { mockTimeblocks } from "@/components/Tasks/mockTasks";
 import { filterTimeblocks } from "@/lib/utils";
+import { resetTimeblocks } from "../setupTests";
 
-const renderWithRouter = (
+const renderTimeblocksWithRouter = (
   ui: React.ReactNode,
   initialRoute = "/timeblocks/1"
 ) => {
-  return render(
+  return renderWithProviders(
     <MemoryRouter initialEntries={[initialRoute]}>
       <Routes>
         <Route path="/timeblocks/:taskId" element={ui} />
@@ -20,26 +20,33 @@ const renderWithRouter = (
 };
 
 describe("Timeblock", () => {
-  it("should render timeblock page", () => {
-    renderWithRouter(<Timeblocks />);
-    expect(screen.getByTestId("timeblocks-title")).toBeInTheDocument();
+  beforeEach(() => {
+    resetTimeblocks();
+    vi.clearAllMocks();
   });
 
-  it("should render timeblock list", () => {
-    renderWithRouter(<Timeblocks />);
-    expect(screen.getByTestId("timeblock-list")).toBeInTheDocument();
+  it("should render timeblock page", async () => {
+    renderTimeblocksWithRouter(<Timeblocks />);
+    expect(await screen.findByTestId("timeblocks-title")).toBeInTheDocument();
+  });
+
+  it("should render timeblock list", async () => {
+    renderTimeblocksWithRouter(<Timeblocks />);
+    expect(await screen.findByTestId("timeblock-list")).toBeInTheDocument();
   });
 
   it("should render add timeblock dialog when add timeblock button is clicked", async () => {
-    renderWithRouter(<Timeblocks />);
+    renderTimeblocksWithRouter(<Timeblocks />);
     const user = userEvent.setup();
+    await screen.findByTestId("add-timeblock-button");
     await user.click(screen.getByTestId("add-timeblock-button"));
     expect(screen.getByTestId("add-timeblock-dialog")).toBeInTheDocument();
   });
 
   it("should submit form with correct data and close dialog", async () => {
-    renderWithRouter(<Timeblocks />);
+    renderTimeblocksWithRouter(<Timeblocks />);
     const user = userEvent.setup();
+    await screen.findByTestId("add-timeblock-button");
     await user.click(screen.getByTestId("add-timeblock-button"));
     await user.type(
       screen.getByTestId("timeblock-dialog-description-input"),
@@ -66,8 +73,9 @@ describe("Timeblock", () => {
   });
 
   it("should add timeblock to the list", async () => {
-    renderWithRouter(<Timeblocks />);
+    renderTimeblocksWithRouter(<Timeblocks />);
     const user = userEvent.setup();
+    await screen.findByTestId("add-timeblock-button");
     await user.click(screen.getByTestId("add-timeblock-button"));
     await user.type(
       screen.getByTestId("timeblock-dialog-description-input"),
@@ -82,11 +90,16 @@ describe("Timeblock", () => {
       "01:00"
     );
     await user.click(screen.getByTestId("add-timeblock-dialog-submit-button"));
-    expect(screen.getByText("Test Description 111")).toBeInTheDocument();
+
+    // Wait for the mutation to complete and UI to update
+    await waitFor(() => {
+      expect(screen.getByText("Test Description 111")).toBeInTheDocument();
+    });
   });
 
-  it("should add a delete button for each timeblock", () => {
-    renderWithRouter(<Timeblocks />);
+  it("should add a delete button for each timeblock", async () => {
+    renderTimeblocksWithRouter(<Timeblocks />);
+    await screen.findByTestId("timeblock-list");
     const timeblocks = filterTimeblocks(mockTimeblocks, 1);
     expect(screen.getAllByTestId("timeblock-delete-button")).toHaveLength(
       timeblocks.length
@@ -94,12 +107,21 @@ describe("Timeblock", () => {
   });
 
   it("should delete a timeblock when delete button is clicked", async () => {
-    renderWithRouter(<Timeblocks />);
+    renderTimeblocksWithRouter(<Timeblocks />);
     const user = userEvent.setup();
+    await screen.findByTestId("timeblock-list");
     const timeblocks = filterTimeblocks(mockTimeblocks, 1);
+
+    // Verify the timeblock is initially there
+    expect(screen.getByText(timeblocks[0].description)).toBeInTheDocument();
+
     await user.click(screen.getAllByTestId("timeblock-delete-button")[0]);
-    expect(
-      screen.queryByText(timeblocks[0].description)
-    ).not.toBeInTheDocument();
+
+    // Wait for the delete mutation to complete and UI to update
+    await waitFor(() => {
+      expect(
+        screen.queryByText(timeblocks[0].description)
+      ).not.toBeInTheDocument();
+    });
   });
 });
