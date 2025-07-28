@@ -12,7 +12,7 @@ export const routes = [
     element: <Tasks />,
   },
   {
-    path: "/timeblocks/:taskId",
+    path: "/tasks/:taskId",
     element: <Timeblocks />,
   },
 ];

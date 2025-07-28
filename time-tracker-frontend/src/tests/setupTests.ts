@@ -39,7 +39,13 @@ vi.mock("@/api/timeblocks", () => ({
       testTimeblocks.push(newTimeblock);
       return Promise.resolve(newTimeblock);
     }),
-    updateTimeblock: vi.fn((id, data) => Promise.resolve({ id, ...data })),
+    updateTimeblock: vi.fn((id, data) => {
+      const existingTimeblock = testTimeblocks.find((tb) => tb.id === id);
+      if (!existingTimeblock) {
+        throw new Error("Timeblock not found");
+      }
+      return Promise.resolve({ ...existingTimeblock, ...data });
+    }),
     deleteTimeblock: vi.fn((id) => {
       testTimeblocks = testTimeblocks.filter((tb) => tb.id !== id);
       return Promise.resolve();

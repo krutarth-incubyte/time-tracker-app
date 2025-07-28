@@ -20,7 +20,7 @@ describe("Routes", () => {
   });
 
   it("renders Timeblocks component for /timeblocks/:taskId route", async () => {
-    renderRoutesWithRouter(["/timeblocks/123"]);
+    renderRoutesWithRouter(["/tasks/1"]);
     expect(await screen.findByTestId("timeblocks-title")).toBeInTheDocument();
   });
 });
