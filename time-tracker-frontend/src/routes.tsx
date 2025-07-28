@@ -1,6 +1,6 @@
 import { createBrowserRouter } from "react-router-dom";
 import Tasks from "./pages/Tasks";
-import Timeblocks from "./pages/Timeblocks";
+import TaskDetail from "./pages/TaskDetail";
 
 export const routes = [
   {
@@ -13,7 +13,7 @@ export const routes = [
   },
   {
     path: "/tasks/:taskId",
-    element: <Timeblocks />,
+    element: <TaskDetail />,
   },
 ];
 

@@ -16,7 +16,7 @@ export const useTasks = () => {
 };
 
 // Get single task
-export const useTask = (id: number) => {
+export const useGetTask = (id: number) => {
   return useQuery({
     queryKey: QUERY_KEYS.task(id),
     queryFn: () => tasksApi.getTask(id),

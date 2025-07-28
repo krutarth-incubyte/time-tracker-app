@@ -13,6 +13,6 @@ export const TaskStatus = {
 } as const;
 
 export interface AddTaskSchema {
-  taskName: string;
-  taskDescription: string;
+  title: string;
+  description: string;
 }

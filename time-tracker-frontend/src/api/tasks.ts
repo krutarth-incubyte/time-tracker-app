@@ -28,8 +28,8 @@ export const tasksApi = {
   // Create new task
   createTask: async (taskData: AddTaskSchema): Promise<Task> => {
     const response = await apiClient.post<Task>("/tasks", {
-      title: taskData.taskName,
-      description: taskData.taskDescription,
+      title: taskData.title,
+      description: taskData.description,
     });
     return {
       ...response.data,
@@ -43,8 +43,8 @@ export const tasksApi = {
     taskData: Partial<AddTaskSchema>
   ): Promise<Task> => {
     const response = await apiClient.patch<Task>(`/tasks/${id}`, {
-      title: taskData.taskName,
-      description: taskData.taskDescription,
+      title: taskData.title,
+      description: taskData.description,
     });
     return {
       ...response.data,

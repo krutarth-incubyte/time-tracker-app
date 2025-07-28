@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 export default function TaskList({ tasks = [] }: { tasks: Task[] }) {
   const navigate = useNavigate();
   const handleTaskClick = (taskId: number) => {
-    navigate(`/timeblocks/${taskId}`);
+    navigate(`/tasks/${taskId}`);
   };
   return (
     // TODO: make it a grid

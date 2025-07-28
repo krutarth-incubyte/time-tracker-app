@@ -1,6 +1,6 @@
 import { describe, it, expect, vi, beforeEach } from "vitest";
 import Tasks from "../../pages/Tasks";
-import Timeblocks from "../../pages/Timeblocks";
+import TaskDetail from "../../pages/TaskDetail";
 import { renderWithProviders, screen, userEvent } from "../test-utils";
 import { mockTasks } from "@/components/Tasks/mockTasks";
 import { createMemoryRouter, RouterProvider } from "react-router-dom";
@@ -14,7 +14,7 @@ const renderTasksWithRouter = (initialEntries = ["/tasks"]) => {
       },
       {
         path: "/timeblocks/:taskId",
-        element: <Timeblocks />,
+        element: <TaskDetail />,
       },
     ],
     {

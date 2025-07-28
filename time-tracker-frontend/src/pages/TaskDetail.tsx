@@ -7,8 +7,9 @@ import {
   useCreateTimeblock,
   useDeleteTimeblock,
 } from "@/hooks/useTimeblocks";
+import { TaskDetailHeader } from "@/components/TaskDetail/TaskDetailHeader";
 
-export default function Timeblocks() {
+export default function TaskDetail() {
   const { taskId } = useParams();
   const taskIdNum = Number(taskId);
 
@@ -55,6 +56,7 @@ export default function Timeblocks() {
 
   return (
     <div className="flex flex-col gap-2">
+      <TaskDetailHeader taskId={taskIdNum} />
       <div className="text-2xl font-bold" data-testid="timeblocks-title">
         Timeblocks for Task {taskId}
       </div>
