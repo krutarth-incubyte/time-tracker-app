@@ -4,6 +4,7 @@ export interface Task {
   description: string;
   createdAt: Date;
   status: (typeof TaskStatus)[keyof typeof TaskStatus];
+  parentTaskId?: number;
 }
 
 export const TaskStatus = {
@@ -15,4 +16,12 @@ export const TaskStatus = {
 export interface AddTaskSchema {
   title: string;
   description: string;
+  parentTaskId?: number;
 }
+
+export type UpdateTaskSchema = {
+  title?: string;
+  description?: string;
+  status?: (typeof TaskStatus)[keyof typeof TaskStatus];
+  parentTaskId?: number;
+};

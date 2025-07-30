@@ -4,4 +4,5 @@ import { TaskStatus } from '../entities/task.entity';
 
 export class UpdateTaskDto extends PartialType(CreateTaskDto) {
   status?: TaskStatus;
+  parentTaskId?: number;
 }

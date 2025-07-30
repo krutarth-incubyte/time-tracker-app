@@ -8,6 +8,13 @@
       "when": 1752405092087,
       "tag": "0000_same_dust",
       "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "7",
+      "when": 1753703327934,
+      "tag": "0001_greedy_falcon",
+      "breakpoints": true
     }
   ]
 }

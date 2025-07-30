@@ -1,5 +1,5 @@
 import { apiClient } from "./client";
-import { Task, AddTaskSchema } from "../types/tasks";
+import { Task, AddTaskSchema, UpdateTaskSchema } from "../types/tasks";
 
 // Type for API response data before date conversion
 type TaskResponse = Omit<Task, "createdAt"> & {
@@ -30,6 +30,7 @@ export const tasksApi = {
     const response = await apiClient.post<Task>("/tasks", {
       title: taskData.title,
       description: taskData.description,
+      parentTaskId: taskData.parentTaskId,
     });
     return {
       ...response.data,
@@ -38,13 +39,12 @@ export const tasksApi = {
   },
 
   // Update task
-  updateTask: async (
-    id: number,
-    taskData: Partial<AddTaskSchema>
-  ): Promise<Task> => {
+  updateTask: async (id: number, taskData: UpdateTaskSchema): Promise<Task> => {
     const response = await apiClient.patch<Task>(`/tasks/${id}`, {
       title: taskData.title,
       description: taskData.description,
+      status: taskData.status,
+      parentTaskId: taskData.parentTaskId,
     });
     return {
       ...response.data,
@@ -55,5 +55,25 @@ export const tasksApi = {
   // Delete task
   deleteTask: async (id: number): Promise<void> => {
     await apiClient.delete(`/tasks/${id}`);
+  },
+
+  // Get sub-tasks for a parent task
+  getSubTasks: async (parentTaskId: number): Promise<Task[]> => {
+    const response = await apiClient.get<TaskResponse[]>(
+      `/tasks/${parentTaskId}/subtasks`
+    );
+    return response.data.map((task: TaskResponse) => ({
+      ...task,
+      createdAt: new Date(task.createdAt),
+    }));
+  },
+
+  // Get top-level tasks (tasks without a parent)
+  getTopLevelTasks: async (): Promise<Task[]> => {
+    const response = await apiClient.get<TaskResponse[]>("/tasks/top-level");
+    return response.data.map((task: TaskResponse) => ({
+      ...task,
+      createdAt: new Date(task.createdAt),
+    }));
   },
 };

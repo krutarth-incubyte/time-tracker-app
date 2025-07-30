@@ -4,6 +4,7 @@ export class Task {
   description: string;
   createdAt: Date;
   status: TaskStatus;
+  parentTaskId?: number;
 }
 
 export enum TaskStatus {

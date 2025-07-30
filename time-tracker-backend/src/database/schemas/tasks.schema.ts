@@ -1,5 +1,12 @@
 import { relations } from 'drizzle-orm';
-import { serial, pgTable, text, timestamp, pgEnum } from 'drizzle-orm/pg-core';
+import {
+  serial,
+  pgTable,
+  text,
+  timestamp,
+  pgEnum,
+  integer,
+} from 'drizzle-orm/pg-core';
 import { timeblocks } from './timeblocks.schema';
 
 export const taskStatusEnum = pgEnum('task_status', [
@@ -13,6 +20,7 @@ export const tasks = pgTable('tasks', {
   title: text('title').notNull(),
   description: text('description'),
   status: taskStatusEnum('status').default('pending').notNull(),
+  parentTaskId: integer('parent_task_id'),
   createdAt: timestamp('created_at').defaultNow().notNull(),
 });
 

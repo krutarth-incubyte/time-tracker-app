@@ -59,4 +59,14 @@ export class TasksController {
     }
     return { message: result };
   }
+
+  @Get(':id/subtasks')
+  async getSubTasks(@Param('id', ParseIntPipe) id: number): Promise<Task[]> {
+    return await this.tasksService.getSubTasks(id);
+  }
+
+  @Get('top-level')
+  async getTopLevelTasks(): Promise<Task[]> {
+    return await this.tasksService.getTopLevelTasks();
+  }
 }

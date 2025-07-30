@@ -16,8 +16,8 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { AddTaskSchema } from "@/types/tasks";
 
 const addTaskSchema = z.object({
-  taskName: z.string().min(1, { message: "Task name is required" }),
-  taskDescription: z.string(),
+  title: z.string().min(1, { message: "Task name is required" }),
+  description: z.string(),
 });
 
 export default function AddTask({
@@ -34,8 +34,8 @@ export default function AddTask({
   } = useForm<AddTaskSchema>({
     resolver: zodResolver(addTaskSchema),
     defaultValues: {
-      taskName: "",
-      taskDescription: "",
+      title: "",
+      description: "",
     },
   });
 
@@ -72,11 +72,11 @@ export default function AddTask({
               placeholder="Task Name"
               id="task-name"
               data-testid="task-name-input"
-              {...register("taskName")}
+              {...register("title")}
             />
-            {errors.taskName && (
+            {errors.title && (
               <p className="text-red-500" data-testid="task-name-error">
-                {errors.taskName.message}
+                {errors.title.message}
               </p>
             )}
             <label htmlFor="task-description">Task Description</label>
@@ -85,7 +85,7 @@ export default function AddTask({
               placeholder="Task Description"
               id="task-description"
               data-testid="task-description-input"
-              {...register("taskDescription")}
+              {...register("description")}
             />
           </div>
           <div className="flex justify-start gap-2">
